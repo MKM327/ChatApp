@@ -1,19 +1,17 @@
 import { Message } from "src/message/message.entity";
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
-
+import { Profile } from "src/profile/profile.entity";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, JoinColumn } from "typeorm";
+import { ApiProperty } from "@nestjs/swagger/dist/decorators";
 @Entity({ name: "User" })
 export class User {
     @PrimaryGeneratedColumn()
     id: number
+    @ApiProperty()
     @Column()
-    firstName: string
+    username: string
+    @ApiProperty()
     @Column()
-    lastName: string
-    @Column()
-    nickname: string
-    @OneToMany(type => Message, message => message.sender, { cascade: ["insert", "update"] })
-    sentMessages: Message[]
-    @OneToMany(type => Message, message => message.receiver)
-    receivedMessages: Message[]
-
+    password: string
+    @OneToOne(() => Profile, profile => profile.user)
+    profile: Profile
 }

@@ -1,14 +1,14 @@
-import { User } from "src/user/user.entity";
+import { Profile } from "src/profile/profile.entity";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, ManyToOne } from "typeorm";
 
 @Entity({ name: "Message" })
 export class Message {
     @PrimaryGeneratedColumn()
     id: number
-    @ManyToOne(() => User, user => user.sentMessages)
-    sender: User
-    @ManyToOne(() => User, user => user.receivedMessages)
-    receiver: User
+    @ManyToOne(() => Profile, profile => profile.sentMessages)
+    sender: Profile
+    @ManyToOne(() => Profile, profile => profile.receivedMessages)
+    receiver: Profile
     @Column()
     messageContent: string
 }

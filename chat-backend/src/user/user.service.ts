@@ -1,28 +1,36 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './user.entity';
-import { EntityNotFoundError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Message } from 'src/message/message.entity';
+import * as bcrypt from 'bcrypt';
 @Injectable()
 export class UserService {
 
     constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) { }
     async create(data: Partial<User>): Promise<User> {
+        const hashedPass = await bcrypt.hash(data.password, 10);
+        data.password = hashedPass;
         const user = this.userRepository.create(data);
         return this.userRepository.save(user);
     }
     async findAll(): Promise<User[]> {
-        return this.userRepository.find();
+        return this.userRepository.find({ loadRelationIds: true });
     }
-    async getSentMessages(userId: number): Promise<Message[]> {
-        const user = await this.userRepository.findOne({
-            where: {
-                id: userId,
-            },
-            relations: ["sentMessages", "sentMessages.receiver"]
-        });
+    async findOne(id: number): Promise<User> {
+        return this.userRepository.findOne({ where: { id: id } });
+    }
+    async delete(id: number): Promise<User> {
+        const user = await this.userRepository.findOne({ where: { id: id } });
         if (!user)
-            throw new NotFoundException("id is not found");
-        return user.sentMessages;
+            throw new NotFoundException("User not found");
+        await this.userRepository.delete({ id });
+        return user;
+    }
+    async update(id: number, data: Partial<User>): Promise<User> {
+        const user = await this.userRepository.findOne({ where: { id: id } });
+        if (!user)
+            throw new NotFoundException("User not found");
+        await this.userRepository.update({ id }, data);
+        return this.userRepository.findOne({ where: { id: id } });
     }
 }
