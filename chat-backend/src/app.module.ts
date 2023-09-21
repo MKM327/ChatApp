@@ -8,6 +8,7 @@ import { Message } from './message/message.entity';
 import { ProfileModule } from './profile/profile.module';
 import { Profile } from './profile/profile.entity';
 import { AuthModule } from './auth/auth.module';
+import { TestModule } from './test/test.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -25,7 +26,8 @@ import { AuthModule } from './auth/auth.module';
     UserModule,
     MessageModule,
     ProfileModule,
-    AuthModule
+    AuthModule,
+    TestModule
   ],
   controllers: [],
   providers: [],

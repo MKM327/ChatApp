@@ -1,5 +1,6 @@
 import { Profile } from "src/profile/profile.entity";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, OneToOne, ManyToOne } from "typeorm";
+import { IsDate, IsNotEmpty } from "class-validator";
 
 @Entity({ name: "Message" })
 export class Message {
@@ -10,5 +11,11 @@ export class Message {
     @ManyToOne(() => Profile, profile => profile.receivedMessages)
     receiver: Profile
     @Column()
+    @IsNotEmpty()
     messageContent: string
+    @Column()
+    isRead: boolean
+    @Column()
+    @IsDate()
+    date: Date
 }

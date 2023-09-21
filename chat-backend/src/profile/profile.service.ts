@@ -50,5 +50,7 @@ export class ProfileService {
         await this.profileRepository.delete({ id });
         return profile;
     }
-
+    async findOne(id: number): Promise<Profile> {
+        return this.profileRepository.findOne({ where: { id: id } });
+    }
 }

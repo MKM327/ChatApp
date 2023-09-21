@@ -16,5 +16,19 @@ export class UserController {
     async addUser(@Body() user: User) {
         this.userService.create(user);
     }
-
+    @Post("/addTestUsers")
+    async addTestUsers() {
+        this.userService.create({
+            username: "test1",
+            password: "test1",
+        } as Partial<User>)
+        this.userService.create({
+            username: "test2",
+            password: "test2",
+        } as Partial<User>)
+        this.userService.create({
+            username: "test3",
+            password: "test3",
+        } as Partial<User>)
+    }
 }

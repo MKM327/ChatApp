@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, ParseIntPipe, ValidationPipe } from '@nestjs/common';
 import { Get, Post, Put, Delete, Param, Body, HttpException, UseGuards } from '@nestjs/common';
 import { ProfileService } from './profile.service';
 import { Profile } from './profile.entity';
@@ -12,16 +12,16 @@ export class ProfileController {
         return this.profileService.getAll();
     }
     @Get("get/:id")
-    async getOne(@Param("id") id: number): Promise<Profile> {
+    async getOne(@Param("id", ParseIntPipe) id: number): Promise<Profile> {
         return this.profileService.getOne(id);
     }
     @Get("get/:id/sentMessages")
     @UseGuards(AuthGuard)
-    async getSentMessages(@Param("id") id: number): Promise<Message[]> {
+    async getSentMessages(@Param("id", ParseIntPipe) id: number): Promise<Message[]> {
         return this.profileService.getSentMessages(id);
     }
     @Get("get/:id/receivedMessages")
-    async getReceivedMessages(@Param("id") id: number): Promise<Message[]> {
+    async getReceivedMessages(@Param("id", ParseIntPipe) id: number): Promise<Message[]> {
         return this.profileService.getReceivedMessages(id);
     }
     @Post("/add")
@@ -29,11 +29,11 @@ export class ProfileController {
         this.profileService.create(profile);
     }
     @Put("/update/:id")
-    async updateProfile(@Param("id") id: number, @Body() profile: Profile) {
+    async updateProfile(@Param("id", ParseIntPipe) id: number, @Body() profile: Profile) {
         return this.profileService.update(id, profile);
     }
     @Delete("/delete/:id")
-    async deleteProfile(@Param("id") id: number) {
+    async deleteProfile(@Param("id", ParseIntPipe) id: number) {
         return this.profileService.delete(id);
     }
 }
