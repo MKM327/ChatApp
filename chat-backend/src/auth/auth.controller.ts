@@ -4,8 +4,8 @@ import { LoginDto } from './login.dto';
 @Controller('auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
-    @Get()
+    @Post()
     async validateUser(@Body() data: LoginDto): Promise<Boolean> {
-        return this.authService.validateUser(data.username, data.password);
+    return this.authService.validateUser(data.username, data.password);
     }
 }

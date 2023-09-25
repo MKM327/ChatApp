@@ -5,7 +5,6 @@ export default function useGetRoutes() {
     const [activeTab, setActiveTab] = useState<NavbarNames>("chat");
     function setActive(name: NavbarNames) {
         setActiveTab(name);
-        console.log("here")
     }
     return { activeTab, setActiveTab: setActive };
 }
