@@ -1,7 +1,8 @@
 import { authContext } from "@/contexts/AuthContext";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import useAuthContext from "../App/useAuthContext";
 
-interface  Profile {
+export interface Profile {
     id: string;
     firstName: string;
     lastName: string;
@@ -9,10 +10,27 @@ interface  Profile {
     isOnline: string;
     email: string;
     lastSeen: string;
-}    
-export default function useGetProfile()
-{
-    const [profile , setProfile] = useState<Profile | null>(null);
-    const {username} = useContext(authContext);
+}
+export default function useGetProfile(): Profile {
+    const [profile, setProfile] = useState<Profile>();
+    const { accessToken, userId } = useAuthContext();
+    const BaseUrl = "http://localhost:6543/";
+    useEffect(() => {
+        getProfile();
+    }, [])
 
+    const getProfile = async () => {
+        const response = await fetch(BaseUrl + "profile/get/" + userId, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + accessToken
+            }
+        });
+        const data = await response.json();
+        setProfile(data);
+    }
+    if (profile == null)
+        return {} as Profile;
+    return profile;
 }

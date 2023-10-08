@@ -53,4 +53,12 @@ export class MessageService {
             return messages;
         }
     }
+    async getLastMessagesFromAllConversations(): Promise<Message[]> {
+        return this.messageRepository
+          .createQueryBuilder('message')
+          .select('MAX(message.timestamp) as maxTimestamp, message.conversationId')
+          .groupBy('message.conversationId')
+          .orderBy('maxTimestamp', 'DESC') // Sort by timestamp in descending order
+          .getRawMany();
+      }
 }

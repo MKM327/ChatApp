@@ -1,20 +1,24 @@
-"use client"
+"use client";
 import useGetAccessToken from "@/hooks/Navbar/useGetUser";
 import { createContext, useState } from "react";
-interface AuthContextProps {
-    accessToken: string;
+export interface AuthContextProps {
+  accessToken: string;
+  userId: number;
 }
-const authContext = createContext({} as AuthContextProps);
-async function AuthProvider({ children }: any) {
-    const accessToken = await useGetAccessToken();
-    document.cookie = accessToken;
-    return (
-        <authContext.Provider value={{
-            accessToken: document.cookie
-        }}>
-            {children}
-        </authContext.Provider>
-    )
+const authContext = createContext<AuthContextProps | null>(null);
+function AuthProvider({ children }: any) {
+  const { userData } = useGetAccessToken();
+  if (!userData) return null;
+  return (
+    <authContext.Provider
+      value={{
+        accessToken: userData.accessToken,
+        userId: userData.userId,
+      }}
+    >
+      {children}
+    </authContext.Provider>
+  );
 }
 
 export { authContext, AuthProvider };
