@@ -7,7 +7,7 @@ export interface AuthContextProps {
 }
 const authContext = createContext<AuthContextProps | null>(null);
 function AuthProvider({ children }: any) {
-  const { userData } = useGetAccessToken();
+  // const { userData } = useGetAccessToken();
   if (!userData) return null;
   return (
     <authContext.Provider

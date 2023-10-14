@@ -6,8 +6,6 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import useGetUser from "@/hooks/Navbar/useGetUser";
 export default function Page() {
   return (
-    <AuthProvider>
      <App />
-    </AuthProvider>
   );
 }
