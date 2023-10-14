@@ -29,4 +29,8 @@ export class MessageController {
     async getConversation(@Body() body: ConversationDto, @Query("page", ParseIntPipe) page: number, @Query("limit", ParseIntPipe) limit: number) {
         return this.messageService.getMessagesBySender(body.senderId, body.receiverId, page, limit);
     }
+    @Get("/LastChatMessages/:id")
+    async getChats(@Param("id", ParseIntPipe) id: number): Promise<any> {
+        return this.messageService.getChattedProfiles(id);
+    }
 }

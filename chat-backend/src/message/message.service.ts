@@ -3,6 +3,8 @@ import { Message } from './message.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProfileService } from 'src/profile/profile.service';
+import { Profile } from 'src/profile/profile.entity';
+import { ChattedProfileDto } from './dto/ChattedProfileDto';
 @Injectable()
 export class MessageService {
     constructor(@InjectRepository(Message) private readonly messageRepository: Repository<Message>,
@@ -53,12 +55,40 @@ export class MessageService {
             return messages;
         }
     }
-    async getLastMessagesFromAllConversations(): Promise<Message[]> {
-        return this.messageRepository
-          .createQueryBuilder('message')
-          .select('MAX(message.timestamp) as maxTimestamp, message.conversationId')
-          .groupBy('message.conversationId')
-          .orderBy('maxTimestamp', 'DESC') // Sort by timestamp in descending order
-          .getRawMany();
-      }
+    async getChattedProfiles(id: number): Promise<ChattedProfileDto[]> {
+        const profile = await this.profileService.getOne(id);
+        const profileMessages = await this.messageRepository.find(
+            { where: [{ sender: profile }, { receiver: profile }], relations: { receiver: true, sender: true } });
+        const chattedProfiles: ChattedProfileDto[] = [];
+
+        debugger;
+        for (let message of profileMessages) {
+            const user = chattedProfiles.find(a => a.id === message.receiver.id || a.id === message.sender.id);
+            if (user)
+                continue;
+            if (message.receiver.id !== id)
+                chattedProfiles.push(
+                    {
+                        id: message.receiver.id,
+                        avatar: message.receiver.avatar,
+                        firstName: message.receiver.firstName,
+                        isOnline: message.receiver.isOnline,
+                        lastMessage: message.messageContent,
+                        MessageDate: message.date,
+                    });
+            else {
+                chattedProfiles.push({
+                    id: message.sender.id,
+                    avatar: message.sender.avatar,
+                    firstName: message.sender.firstName,
+                    isOnline: message.sender.isOnline,
+                    lastMessage: message.messageContent,
+                    MessageDate: message.date,
+                })
+            }
+
+        }
+        return chattedProfiles;
+    }
+
 }
