@@ -1,12 +1,12 @@
 import Account from "./Account";
 import OnlineFriends from "./OnlineFriends";
 import Messages from "./Messages";
-import useGetProfile from "@/hooks/Messages/useGetProfile";
-export default function MessageCenter() {
-  const profile = useGetProfile();
+import getProfile from "@/hooks/Messages/getProfile";
+export default async function MessageCenter() {
+  const profile = await getProfile();
   return (
     <section className="flex flex-col border-r border-text-color items-center justify-center">
-      <Account profile={profile}/>
+      <Account profile={profile} />
       <div className="flex flex-col w-full gap-2 flex-1 overflow-hidden">
         <div className="p-5">
           <input

@@ -1,4 +1,4 @@
-import { Profile } from "@/hooks/Messages/useGetProfile";
+import { Profile } from "@/hooks/Messages/getProfile";
 
 interface IProfileProps {
   profile: Profile;
@@ -11,7 +11,7 @@ export default function Account({ profile }: IProfileProps) {
           <i className="fa-solid fa-id-card text-white"></i>
         </div>
         <div>
-          <h4 className="text-white font-medium">{profile.firstName}</h4>
+          <h4 className="text-white font-medium">{profile?.firstName}</h4>
           <span className="text-text-color text-xs">my Account</span>
         </div>
       </div>

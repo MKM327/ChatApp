@@ -12,6 +12,7 @@ export class ProfileController {
         return this.profileService.getAll();
     }
     @Get("get/:id")
+    @UseGuards(AuthGuard)
     async getOne(@Param("id", ParseIntPipe) id: number): Promise<Profile> {
         return this.profileService.getOne(id);
     }

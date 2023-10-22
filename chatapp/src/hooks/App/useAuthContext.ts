@@ -3,7 +3,6 @@ import { AuthContextProps, authContext } from "@/contexts/AuthContext"
 import useGetAccessToken from "../Navbar/useGetUser";
 export default function useAuthContext(): AuthContextProps {
     let context = useContext(authContext);
-    const { userData } = useGetAccessToken();
     if (context === undefined) {
         throw new Error("useAuthContext must be used within a AuthProvider");
     }
