@@ -51,7 +51,7 @@ export class TestController {
             age: 3,
             email: "test3@gmail.com",
             avatar: "https://templink.com/3",
-            isOnline: true,
+            isOnline: false,
             lastSeen: new Date(),
 
             user: await this.userService.findOne(3),
@@ -71,14 +71,14 @@ export class TestController {
             sender: await this.profileService.findOne(2),
             receiver: await this.profileService.findOne(1),
             date: new Date(),
-            isRead: true
+            isRead: false
         })
         this.messageService.create({
             messageContent: "test3",
             sender: await this.profileService.findOne(3),
             receiver: await this.profileService.findOne(1),
             date: new Date(),
-            isRead: true
+            isRead: false
         })
         this.messageService.create({
             messageContent: "test4",

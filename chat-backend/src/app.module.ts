@@ -9,6 +9,8 @@ import { ProfileModule } from './profile/profile.module';
 import { Profile } from './profile/profile.entity';
 import { AuthModule } from './auth/auth.module';
 import { TestModule } from './test/test.module';
+import { EventsGateway } from './events/events.gateway';
+import { EventsModule } from './events/events.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -27,9 +29,10 @@ import { TestModule } from './test/test.module';
     MessageModule,
     ProfileModule,
     AuthModule,
-    TestModule
+    TestModule,
+    EventsModule
   ],
   controllers: [],
-  providers: [],
+  providers: [EventsGateway],
 })
 export class AppModule { }
