@@ -2,27 +2,58 @@ import { WebSocketGateway, WebSocketServer, SubscribeMessage, OnGatewayConnectio
 import { profile } from 'console';
 import { Server, Socket } from 'socket.io';
 import { ProfileService } from 'src/profile/profile.service';
-
+import { Client } from './client.entity';
+import { EventMessage } from './event.payload';
+import { MessageService } from 'src/message/message.service';
 @WebSocketGateway({ namespace: '/chat' })
 export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
-  
-  constructor(private profileService: ProfileService){}
+
+  constructor(private profileService: ProfileService, private messageService: MessageService) { }
   @WebSocketServer()
   server: Server;
+  private connectedUsers: Client[] = [];
   @SubscribeMessage('message')
-  handleMessage(@ConnectedSocket() client: Socket, @MessageBody() payload: any): string {
-    client.emit("message", payload);
-    return 'Hello world!';
+  handleMessage(@ConnectedSocket() client: Socket, @MessageBody() payload: EventMessage) {
+    let receiver = this.connectedUsers.find((user) => user.id === payload.receiver);
+    if (receiver) {
+      receiver.socket.emit('message', payload);
+    }
   }
-  @SubscribeMessage('events')
-  handleEvent(@MessageBody() data: string): string {
+  @SubscribeMessage('test')
+  handleEvent(@ConnectedSocket() socket: Socket, @MessageBody() data: string): string {
+    console.log("WOW ITS HERE\n");
+    console.log("here" + data);
+    socket.broadcast.emit('test', data);
     return data;
   }
+  @SubscribeMessage('clear')
+  handleClear(@ConnectedSocket() socket: Socket, @MessageBody() data: string) {
+    console.log("clearing");
+    this.server.disconnectSockets();
+    this.connectedUsers = [];
+  }
   handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
+    const newClient = new Client();
+    newClient.socket = client;
+    if (Array.isArray(client.handshake.query.id)) {
+      newClient.id = parseInt(client.handshake.query.id[0]);
+    }
+    else {
+      newClient.id = parseInt(client.handshake.query.id);
+    }
+    if (this.connectedUsers.find((user) => user.id === newClient.id)) {
+      client.disconnect();
+      return;
+    }
+    console.log("new client id: " + newClient.id);
+    this.connectedUsers.push(newClient);
+    this.profileService.handleConnection(newClient.id);
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
+    const index = this.connectedUsers.findIndex((user) => user.socket.id === client.id);
+    const user = this.connectedUsers[index];
+    this.connectedUsers.splice(index, 1);
+    this.profileService.handleDisconnection(user.id);
   }
 }

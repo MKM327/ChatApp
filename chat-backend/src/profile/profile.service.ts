@@ -53,4 +53,18 @@ export class ProfileService {
     async findOne(id: number): Promise<Profile> {
         return this.profileRepository.findOne({ where: { id: id } });
     }
+    async handleConnection(id: number): Promise<void> {
+        const profile = await this.profileRepository.findOne({ where: { id: id } });
+        if (!profile)
+            throw new NotFoundException("Profile not found");
+        profile.isOnline = true;
+        await this.profileRepository.save(profile);
+    }
+    async handleDisconnection(id: number): Promise<void> {
+        const profile = await this.profileRepository.findOne({ where: { id: id } });
+        if (!profile)
+            throw new NotFoundException("Profile not found");
+        profile.isOnline = false;
+        await this.profileRepository.save(profile);
+    }
 }
