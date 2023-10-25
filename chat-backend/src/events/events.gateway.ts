@@ -21,8 +21,6 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
   @SubscribeMessage('test')
   handleEvent(@ConnectedSocket() socket: Socket, @MessageBody() data: string): string {
-    console.log("WOW ITS HERE\n");
-    console.log("here" + data);
     socket.broadcast.emit('test', data);
     return data;
   }
