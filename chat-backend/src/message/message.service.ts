@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProfileService } from 'src/profile/profile.service';
 import { Profile } from 'src/profile/profile.entity';
-import { ChattedProfileDto } from './dto/ChattedProfileDto';
+import { ChattedProfileDto } from './dto/ChattedProfileDto'
 @Injectable()
 export class MessageService {
     constructor(@InjectRepository(Message) private readonly messageRepository: Repository<Message>,

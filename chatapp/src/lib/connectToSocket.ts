@@ -1,11 +1,14 @@
+import getAccessToken from "@/hooks/Navbar/useGetUser";
 import { io } from "socket.io-client";
 
-export default function connectToSocket() {
-    // console.log("connecting to socket");
+export default async function connectToSocket() {
+    const { accessToken, userId } = await getAccessToken();
     const socket = io("http://localhost:6543/chat", {
         query: {
-            id: 3,
+            id: userId,
         },
+        timeout: 10000,
+        
     });
     socket.on("connect", () => {
         console.log("connected to socket");

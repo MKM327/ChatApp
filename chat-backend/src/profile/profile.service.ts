@@ -3,6 +3,7 @@ import { Profile } from './profile.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Message } from 'src/message/message.entity';
+import { OnlineDto } from './dto/online.dto';
 @Injectable()
 export class ProfileService {
     constructor(@InjectRepository(Profile) private readonly profileRepository: Repository<Profile>) { }
@@ -66,5 +67,10 @@ export class ProfileService {
             throw new NotFoundException("Profile not found");
         profile.isOnline = false;
         await this.profileRepository.save(profile);
+    }
+
+    async getOnline(): Promise<OnlineDto[]> {
+        const online = await this.profileRepository.find({ where: { isOnline: true }, select: ["id", "firstName"] });
+        return online;
     }
 }

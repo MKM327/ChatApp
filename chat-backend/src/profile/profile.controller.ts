@@ -4,6 +4,7 @@ import { ProfileService } from './profile.service';
 import { Profile } from './profile.entity';
 import { Message } from 'src/message/message.entity';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { OnlineDto } from './dto/online.dto';
 @Controller('profile')
 export class ProfileController {
     constructor(private readonly profileService: ProfileService) { }
@@ -36,5 +37,9 @@ export class ProfileController {
     @Delete("/delete/:id")
     async deleteProfile(@Param("id", ParseIntPipe) id: number) {
         return this.profileService.delete(id);
+    }
+    @Get("/online")
+    async getOnline(): Promise<OnlineDto[]> {
+        return this.profileService.getOnline();
     }
 }
