@@ -3,5 +3,5 @@ COPY /chat-backend /app
 COPY /chat-backend/package.json /app
 WORKDIR /app
 RUN npm install /app
-EXPOSE 3000
+EXPOSE 6543
 CMD ["npm", "run", "start:dev"]
