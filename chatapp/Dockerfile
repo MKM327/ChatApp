@@ -1,6 +1,6 @@
-FROM node:alpine
-COPY . /app
-WORKDIR /app
+FROM node:16 as development
+WORKDIR /usr/src/app
+COPY package*.json tsconfig.json ./
 RUN npm install
-EXPOSE 3000
-CMD ["npm", "run", "start"]
+COPY ./src ./src
+CMD [ "npm", "run", "dev" ]
