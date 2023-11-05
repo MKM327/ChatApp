@@ -1,6 +1,6 @@
 FROM node:16 as development
-WORKDIR /usr/src/app
-COPY package*.json tsconfig.json ./
+COPY . /app
+WORKDIR /app
 RUN npm install
-COPY ./src ./src
-CMD [ "npm", "run", "dev" ]
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
