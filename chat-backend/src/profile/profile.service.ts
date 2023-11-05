@@ -69,8 +69,13 @@ export class ProfileService {
         await this.profileRepository.save(profile);
     }
 
-    async getOnline(): Promise<OnlineDto[]> {
+    async getOnline(id: number): Promise<OnlineDto[]> {
         const online = await this.profileRepository.find({ where: { isOnline: true }, select: ["id", "firstName"] });
-        return online;
+        const onlineDto: OnlineDto[] = [];
+        for (let user of online) {
+            if (user.id !== id)
+                onlineDto.push({ id: user.id, firstName: user.firstName });
+        }
+        return onlineDto;
     }
 }

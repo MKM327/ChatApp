@@ -38,8 +38,8 @@ export class ProfileController {
     async deleteProfile(@Param("id", ParseIntPipe) id: number) {
         return this.profileService.delete(id);
     }
-    @Get("/online")
-    async getOnline(): Promise<OnlineDto[]> {
-        return this.profileService.getOnline();
+    @Get("/online/:id")
+    async getOnline(@Param("id", ParseIntPipe) id: number): Promise<OnlineDto[]> {
+        return this.profileService.getOnline(id);
     }
 }
