@@ -8,7 +8,6 @@ export default async function connectToSocket() {
             id: userId,
         },
         timeout: 10000,
-        
     });
     socket.on("connect", () => {
         console.log("connected to socket");

@@ -8,7 +8,7 @@ import getAccessToken from "@/hooks/Navbar/useGetUser";
 import axios from "axios";
 import connectToSocket from "@/lib/connectToSocket";
 export default async function App() {
-  connectToSocket();
+  // connectToSocket();
   return (
     <div className="bg-primary-color h-full w-full">
       <div className="w-11/12 m-auto h-full flex items-center">

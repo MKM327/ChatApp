@@ -1,3 +1,5 @@
+"use client";
+
 import generateTime from "@/lib/generateTime";
 import { IChat } from "@/lib/getChats";
 interface MessageProps {
@@ -5,7 +7,10 @@ interface MessageProps {
 }
 export default function Message({ chat }: MessageProps) {
   return (
-    <div className="flex justify-between hover:bg-gray-700 p-3">
+    <div
+      className="flex justify-between hover:bg-gray-700 p-3 cursor-pointer"
+      onClick={() => console.log("test")}
+    >
       <div className="flex gap-2">
         <div className="bg-purple-500 rounded-full aspect-square w-10 flex items-center justify-center">
           <i className="fa-solid fa-id-card text-white"></i>

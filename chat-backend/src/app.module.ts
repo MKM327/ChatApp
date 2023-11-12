@@ -11,8 +11,10 @@ import { AuthModule } from './auth/auth.module';
 import { TestModule } from './test/test.module';
 import { EventsGateway } from './events/events.gateway';
 import { EventsModule } from './events/events.module';
+import { LEGAL_TCP_SOCKET_OPTIONS } from 'typeorm';
 @Module({
   imports: [
+
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot(
       {
