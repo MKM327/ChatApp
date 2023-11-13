@@ -1,7 +1,5 @@
-"use client";
-
 import generateTime from "@/lib/generateTime";
-import { IChat } from "@/lib/getChats";
+import { IChat } from "@/hooks/Messages/useGetChats";
 interface MessageProps {
   chat: IChat;
 }
