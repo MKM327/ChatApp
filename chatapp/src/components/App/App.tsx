@@ -7,6 +7,7 @@ import { cookies, headers } from "next/headers";
 import getAccessToken from "@/hooks/Navbar/useGetUser";
 import axios from "axios";
 import connectToSocket from "@/lib/connectToSocket";
+import CenterWrapper from "./CenterWrapper";
 export default async function App() {
   // connectToSocket();
   return (
@@ -15,8 +16,10 @@ export default async function App() {
         <div className="w-full h-4/5 rounded-lg bg-primary-color border flex border-text-color">
           <Navbar />
           <main className="flex-1 flex">
-            <MessageCenter />
-            <ChatCenter />
+            <CenterWrapper>
+              <MessageCenter />
+              <ChatCenter />
+            </CenterWrapper>
           </main>
         </div>
       </div>
