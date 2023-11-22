@@ -1,12 +1,6 @@
-import MyImage from "../MyImage";
 import Navbar from "../Navbar/Navbar";
-import useAuthContext from "@/hooks/App/useAuthContext";
 import MessageCenter from "../Messages/MessageCenter";
 import ChatCenter from "../Chat/ChatCenter";
-import { cookies, headers } from "next/headers";
-import getAccessToken from "@/hooks/Navbar/useGetUser";
-import axios from "axios";
-import connectToSocket from "@/lib/connectToSocket";
 import CenterWrapper from "./CenterWrapper";
 export default async function App() {
   // connectToSocket();

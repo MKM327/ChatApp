@@ -3,37 +3,27 @@ version: '3'
 services:
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.frontend
+      context: ./chatapp
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
-
+    env_file:
+      - .env
 
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile.backend
+      context: ./chat-backend
     ports:
       - "3001:3001"
-    environment:
-      POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
-      POSTGRES_USER: your_postgres_user
-      POSTGRES_PASSWORD: your_postgres_password
-      POSTGRES_DB: your_postgres_database
     env_file:
-      - ./chat-backend/.env
+      - .env
+    depends_on:
+      - postgres
 
   postgres:
     image: postgres:latest
     environment:
-      POSTGRES_USER: your_postgres_user
-      POSTGRES_PASSWORD: your_postgres_password
-      POSTGRES_DB: your_postgres_database
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-volumes:
-  postgres_data:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"

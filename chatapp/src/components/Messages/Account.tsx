@@ -1,4 +1,4 @@
-import { Profile } from "@/hooks/Messages/getProfile";
+import { Profile } from "@/hooks/Messages/useGetProfile";
 
 interface IProfileProps {
   profile: Profile;

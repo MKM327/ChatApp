@@ -1,9 +1,10 @@
+"use client";
 import Account from "./Account";
 import OnlineFriends from "./OnlineFriends";
 import Messages from "./Messages";
-import getProfile from "@/hooks/Messages/getProfile";
-export default async function MessageCenter() {
-  const profile = await getProfile();
+import getProfile from "@/hooks/Messages/useGetProfile";
+export default function MessageCenter() {
+  const { profile } = getProfile();
   return (
     <section className="flex flex-col border-r border-text-color items-center justify-center">
       <Account profile={profile} />
