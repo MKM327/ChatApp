@@ -13,18 +13,11 @@ export default async function App() {
   }
 
   return (
-    <div className="bg-primary-color h-full w-full">
-      <div className="w-11/12 m-auto h-full flex items-center">
-        <div className="w-full h-4/5 rounded-lg bg-primary-color border flex border-text-color">
-          <Navbar />
-          <main className="flex-1 flex">
-            <CenterWrapper>
-              <MessageCenter />
-              <ChatCenter />
-            </CenterWrapper>
-          </main>
-        </div>
-      </div>
-    </div>
+    <main className="flex-1 flex">
+      <CenterWrapper>
+        <MessageCenter />
+        <ChatCenter />
+      </CenterWrapper>
+    </main>
   );
 }

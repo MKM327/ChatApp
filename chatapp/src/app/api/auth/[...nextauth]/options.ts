@@ -46,8 +46,10 @@ export const authOptions: NextAuthOptions = {
 
             return { ...user, ...token }
         },
-        async session({ session, token, user }) {
-            return { userId: token.userId, access_token: token.access_token };
+        async session({ session, token, user, ...rest }) {
+            session.userId = token.userId;
+            session.access_token = token.access_token;
+            return session;
         },
         async signIn({ user, account, profile }) {
             return true;

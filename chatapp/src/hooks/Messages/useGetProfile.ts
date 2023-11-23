@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import useAuthContext from "../App/useAuthContext";
 import { BASE_URL } from "@/lib/exports";
 import { getSession } from "next-auth/react";
-
+import { useRouter } from 'next/navigation'
 export interface Profile {
     id: string;
     firstName: string;
@@ -14,23 +14,31 @@ export interface Profile {
 }
 
 export default function useGetProfile(): Profile {
-    const [profile, setProfile] = useState<Profile>();
+    const [profile, setProfile] = useState<Profile>({} as Profile);
+    const router = useRouter();
+
     useEffect(() => {
         fetchProfile();
     }, []);
     async function fetchProfile() {
-        const { userId, access_token } = await getSession();
-        console.log(userId, access_token)
-        const response = await fetch(BASE_URL + "profile/get/" + userId, {
+        const session = await getSession();
+        if (!session) {
+            router.push("api/auth/signin/credentials");
+        }
+
+        const response = await fetch(BASE_URL + "profile/get/" + session?.userId, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${access_token}`,
+                Authorization: `Bearer ${session?.access_token}`,
             }
         });
+        if (response.status === 403) {
+            router.push("api/auth/signin/credentials");
+        }
         const data = await response.json();
         setProfile(data);
     }
 
-    return { profile };
+    return profile;
 }
