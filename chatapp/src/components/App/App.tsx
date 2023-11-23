@@ -3,10 +3,15 @@ import MessageCenter from "../Messages/MessageCenter";
 import ChatCenter from "../Chat/ChatCenter";
 import CenterWrapper from "./CenterWrapper";
 import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
+import { redirect } from "next/navigation";
 export default async function App() {
   // connectToSocket();
-  const session = getServerSession();
-  console.log(session);
+  const session = await getServerSession(authOptions);
+  if (session === undefined) {
+    redirect("/api/auth/signin/credentials");
+  }
+
   return (
     <div className="bg-primary-color h-full w-full">
       <div className="w-11/12 m-auto h-full flex items-center">
