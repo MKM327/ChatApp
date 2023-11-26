@@ -1,7 +1,11 @@
+import useGetChatData from "@/hooks/Chat/useGetChatData";
 import MyImage from "../MyImage";
 import Chat from "./Chat";
 import ChatterCard from "./ChatterCard/ChatterCard";
 import SendMessage from "./SendMessage";
+interface ChatCenterProps {
+  userId: string;
+}
 
 function ChatterInfo() {
   return (
@@ -25,16 +29,16 @@ function ChatterInfo() {
     </div>
   );
 }
-export default async function ChatCenter() {
+export default async function ChatCenter({ userId }: ChatCenterProps) {
+  useGetChatData();
   return (
-    <div>asd</div>
-    // <section className="flex-1 flex">
-    //   <div className="flex-1 overflow-hidden flex flex-col">
-    //     <ChatterInfo />
-    //     <Chat />
-    //     <SendMessage />
-    //   </div>
-    //   <ChatterCard />
-    // </section>
+    <section className="flex-1 flex">
+      <div className="flex-1 overflow-hidden flex flex-col">
+        <ChatterInfo />
+        <Chat />
+        <SendMessage />
+      </div>
+      <ChatterCard />
+    </section>
   );
 }

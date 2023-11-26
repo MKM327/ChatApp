@@ -1,13 +1,18 @@
 import generateTime from "@/lib/generateTime";
 import { IChat } from "@/hooks/Messages/useGetChats";
+import { redirect, useRouter } from "next/navigation";
+import { useEffect } from "react";
 interface MessageProps {
   chat: IChat;
 }
 export default function Message({ chat }: MessageProps) {
+  const router = useRouter();
   return (
     <div
       className="flex justify-between hover:bg-gray-700 p-3 cursor-pointer"
-      onClick={() => console.log("test")}
+      onClick={() => {
+        router.push(`/chat/${chat.id}`);
+      }}
     >
       <div className="flex gap-2">
         <div className="bg-purple-500 rounded-full aspect-square w-10 flex items-center justify-center">

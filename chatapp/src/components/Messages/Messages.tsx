@@ -12,7 +12,7 @@ export default function Messages() {
         </div>
         <div className="overflow-y-scroll scroll-smooth flex-1 basis-10">
           {chats.map((chat) => {
-            return <Message key={chat.id} chat={chat} />;
+            return <Message key={chat.id} chat={chat}/>;
           })}
         </div>
       </div>
