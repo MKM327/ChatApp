@@ -78,4 +78,15 @@ export class ProfileService {
         }
         return onlineDto;
     }
+    async getChatProfile(id: number): Promise<ChatProfileDto> {
+        const profile = await this.profileRepository.findOne({ where: { id: id }, relations: ["user"] });
+        if (!profile)
+            throw new NotFoundException("Profile not found");
+        const chatProfileDto: ChatProfileDto = {
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+            isOnline: profile.isOnline
+        }
+        return chatProfileDto;
+    }
 }

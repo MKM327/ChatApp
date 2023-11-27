@@ -3,11 +3,13 @@ import MyImage from "../MyImage";
 import Chat from "./Chat";
 import ChatterCard from "./ChatterCard/ChatterCard";
 import SendMessage from "./SendMessage";
+import Loading from "../Loading";
 interface ChatCenterProps {
   userId: string;
 }
 
 function ChatterInfo() {
+  const { data } = useGetChatData();
   return (
     <div className="flex items-center justify-between pl-5 pt-3 pr-5 pb-5 border-b border-text-color">
       <div className="flex gap-2 items-center">
@@ -16,10 +18,10 @@ function ChatterInfo() {
         </div>
         <div>
           <div>
-            <h4 className="text-white font-medium">Another good name</h4>
+            <h4 className="text-white font-medium">{data?.firstName}</h4>
           </div>
           <div>
-            <span className="text-sent-message-color text-sm">Typing...</span>
+            <span className="text-sent-message-color text-sm">typing</span>
           </div>
         </div>
       </div>
@@ -29,9 +31,11 @@ function ChatterInfo() {
     </div>
   );
 }
-export default async function ChatCenter({ userId }: ChatCenterProps) {
-  useGetChatData();
-  return (
+export default function ChatCenter({ userId }: ChatCenterProps) {
+  const { isLoading } = useGetChatData();
+  return isLoading ? (
+    <Loading />
+  ) : (
     <section className="flex-1 flex">
       <div className="flex-1 overflow-hidden flex flex-col">
         <ChatterInfo />

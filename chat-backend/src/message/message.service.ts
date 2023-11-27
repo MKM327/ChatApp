@@ -45,7 +45,7 @@ export class MessageService {
                     { sender: sender, receiver: receiver },
                     { sender: receiver, receiver: sender }
                 ],
-                relations: ["sender", "receiver"],
+                loadRelationIds: true,
                 skip: (page - 1) * limit,
                 take: limit,
                 order: {

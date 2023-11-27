@@ -42,4 +42,8 @@ export class ProfileController {
     async getOnline(@Param("id", ParseIntPipe) id: number): Promise<OnlineDto[]> {
         return this.profileService.getOnline(id);
     }
+    @Get("/chatProfile/:id")
+    async getChatProfile(@Param("id", ParseIntPipe) id: number): Promise<ChatProfileDto> {
+        return this.profileService.getChatProfile(id);
+    }
 }

@@ -25,9 +25,12 @@ export class MessageController {
     async deleteMessage(@Param("id") id: number) {
         return this.messageService.delete(id);
     }
-    @Get("/getConversation/")
-    async getConversation(@Body() body: ConversationDto, @Query("page", ParseIntPipe) page: number, @Query("limit", ParseIntPipe) limit: number) {
-        return this.messageService.getMessagesBySender(body.senderId, body.receiverId, page, limit);
+    @Get("/Conversation/")
+    async getConversation(@Query("page", ParseIntPipe) page: number, @Query("limit", ParseIntPipe) limit: number
+        , @Query("receiverId") receiverId: number, @Query("userId") userId: number
+    ) {
+        console.log("receiverId", receiverId)
+        return this.messageService.getMessagesBySender(userId, receiverId, page, limit);
     }
     @Get("/LastChatMessages/:id")
     async getChats(@Param("id", ParseIntPipe) id: number): Promise<any> {
