@@ -13,10 +13,10 @@ function ChatterInfo() {
   return (
     <div className="flex items-center justify-between pl-5 pt-3 pr-5 pb-5 border-b border-text-color">
       <div className="flex gap-2 items-center">
-        <div className="bg-purple-500 rounded-full aspect-square w-10 h-10 flex items-center justify-center">
+        <div className="bg-purple-500 rounded-full aspect-square w-10 h-10 flex items-center justify-center ">
           <i className="fa-solid fa-id-card text-white"></i>
         </div>
-        <div>
+        <div className="cursor-pointer">
           <div>
             <h4 className="text-white font-medium">{data?.firstName}</h4>
           </div>
