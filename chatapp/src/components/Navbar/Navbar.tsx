@@ -34,7 +34,10 @@ export default function Navbar() {
           className="rounded-full bg-white p-2 cursor-pointer"
           onClick={() => router.push("/")}
         >
-          <i className="fa-solid fa-comments text-blue-400 text-xl"></i>
+          <i
+            className="fa-solid fa-comments text-blue-400 text-xl"
+            aria-hidden
+          ></i>
         </div>
       </div>
       <div className="flex flex-col gap-1">
@@ -49,10 +52,10 @@ export default function Navbar() {
       </div>
       <div className="">
         <div className="rounded-full bg-primary-color p-2 flex justify-center w-10 aspect-square items-center">
-          <i className="fa-solid fa-plus text-text-color"></i>
+          <i aria-hidden className="fa-solid fa-plus text-text-color"></i>
         </div>
         <div className="rounded-full bg-primary-color p-2 flex justify-center w-10 aspect-square items-center">
-          <i className="fa-solid fa-id-card text-text-color"></i>
+          <i aria-hidden className="fa-solid fa-id-card text-text-color"></i>
         </div>
       </div>
     </div>

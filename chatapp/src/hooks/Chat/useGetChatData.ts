@@ -11,9 +11,6 @@ interface IChatData {
 }
 export default function useGetChatData() {
     const { userId } = useParams();
-    const { data, error, isLoading } = useSWR<IChatData, any>(`${BASE_URL}profile/chatProfile/${userId}`, fetcher)
-    useEffect(() => {
-
-    }, [userId])
+    const { data, error, isLoading } = useSWR<IChatData, Error>(`${BASE_URL}profile/chatProfile/${userId}`, fetcher)
     return { data, error, isLoading }
 }

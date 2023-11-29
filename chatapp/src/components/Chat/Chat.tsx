@@ -19,7 +19,6 @@ function Message({ type, message }: MessageProps) {
   const messageType = type === "sent" ? "self-end" : "self-start";
   const messageColor = type === "sent" ? "sent-message-color" : "primary-color";
   const textColor = type === "sent" ? "text-primary-color" : "text-text-color";
-  console.log(messageType, messageColor, textColor);
   return (
     <div className={messageType}>
       <div

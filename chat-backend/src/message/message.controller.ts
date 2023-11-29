@@ -29,7 +29,6 @@ export class MessageController {
     async getConversation(@Query("page", ParseIntPipe) page: number, @Query("limit", ParseIntPipe) limit: number
         , @Query("receiverId") receiverId: number, @Query("userId") userId: number
     ) {
-        console.log("receiverId", receiverId)
         return this.messageService.getMessagesBySender(userId, receiverId, page, limit);
     }
     @Get("/LastChatMessages/:id")
