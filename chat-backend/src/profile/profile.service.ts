@@ -85,7 +85,8 @@ export class ProfileService {
         const chatProfileDto: ChatProfileDto = {
             firstName: profile.firstName,
             lastName: profile.lastName,
-            isOnline: profile.isOnline
+            isOnline: profile.isOnline,
+            avatar: profile.avatar,
         }
         return chatProfileDto;
     }
