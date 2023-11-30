@@ -1,7 +1,5 @@
 import { BASE_URL, fetcher } from "@/lib/exports";
-import { getSession } from "next-auth/react";
 import { useParams } from "next/navigation";
-import { useEffect } from "react";
 import useSWR from "swr";
 interface IChatData {
     firstName: string,
@@ -11,6 +9,6 @@ interface IChatData {
 }
 export default function useGetChatData() {
     const { userId } = useParams();
-    const { data, error, isLoading } = useSWR<IChatData, Error>(`${BASE_URL}profile/chatProfile/${userId}`, fetcher)
+    const { data, error, isLoading } = useSWR<IChatData, Error>(`${BASE_URL}profile/chatProfile/${userId}`, (url: string) => fetcher(url, "GET"));
     return { data, error, isLoading }
 }

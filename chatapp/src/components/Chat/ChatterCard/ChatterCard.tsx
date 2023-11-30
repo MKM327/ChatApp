@@ -1,6 +1,4 @@
-import MyImage from "@/components/MyImage";
 import CardInfo from "./CardInfo";
-import CardImage from "./CardImage";
 import CardMedia from "./CardMedia";
 import CardFiles from "./CardFiles";
 function CardHeader() {
@@ -17,7 +15,7 @@ function CardHeader() {
 }
 export default function ChatterCard() {
   return (
-    <div className="w-1/3 border-l border-l-text-color flex flex-col gap-4 basis-auto max-w-full overflow-y-auto">
+    <div className="w-1/3 border-l max-sm:hidden border-l-text-color flex flex-col gap-4 basis-auto max-w-full overflow-y-auto">
       <CardHeader />
       <CardInfo />
       <CardMedia />

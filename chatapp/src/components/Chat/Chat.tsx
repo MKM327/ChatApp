@@ -1,4 +1,4 @@
-import { BASE_URL, conversationFetcher, fetcher } from "@/lib/exports";
+import { BASE_URL, fetcher } from "@/lib/exports";
 import { useParams } from "next/navigation";
 import { Interface } from "readline";
 import useSWR from "swr";
@@ -34,7 +34,7 @@ export default function Chat() {
   const { userId } = useParams();
   const { data } = useSWR<IMessage[], any>(
     `${BASE_URL}message/Conversation?page=1&limit=10&userId=1&receiverId=2`,
-    conversationFetcher
+    (url: string) => fetcher(url, "GET")
   );
   return (
     <div className="p-3 bg-secondary-color flex flex-col gap-5 overflow-y-scroll flex-1">
