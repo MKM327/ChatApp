@@ -4,6 +4,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import MessageCenter from "@/components/Messages/MessageCenter";
 import CenterWrapper from "@/components/App/CenterWrapper";
+import connectToSocket from "@/lib/connectToSocket";
+import { authOptions } from "./api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth/next";
+import { redirect } from "next/navigation";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -11,11 +16,16 @@ export const metadata: Metadata = {
   description: "a chat app for everyone",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  connectToSocket();
+  const session = await getServerSession(authOptions);
+  if (session === undefined) {
+    redirect("/api/auth/signin/credentials");
+  }
   return (
     <html lang="en">
       <head>

@@ -53,5 +53,6 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const user = this.connectedUsers[index];
     this.connectedUsers.splice(index, 1);
     this.profileService.handleDisconnection(user.id);
+    console.log("disconnected", client.id);
   }
 }
