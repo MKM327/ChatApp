@@ -30,7 +30,7 @@ export const authOptions: NextAuthOptions = {
                 );
                 if (data.status === 201) {
                     let UserData = await data.json();
-                    return UserData;
+                    return UserData
                 } else {
                     return null
 
@@ -43,13 +43,10 @@ export const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({ token, user, }) {
-
             return { ...user, ...token }
         },
         async session({ session, token, user, ...rest }) {
-            session.userId = token.userId;
-            session.access_token = token.access_token;
-            return session;
+            return { ...session, ...token };
         },
         async signIn({ user, account, profile }) {
             return true;

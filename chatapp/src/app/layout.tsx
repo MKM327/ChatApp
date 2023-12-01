@@ -21,11 +21,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  connectToSocket();
   const session = await getServerSession(authOptions);
-  if (session === undefined) {
+  if (session === undefined) 
     redirect("/api/auth/signin/credentials");
-  }
+  // await connectToSocket();
   return (
     <html lang="en">
       <head>

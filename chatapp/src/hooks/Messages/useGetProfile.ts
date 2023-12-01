@@ -22,6 +22,7 @@ export default function useGetProfile(): Profile {
     }, []);
     async function fetchProfile() {
         const session = await getSession();
+        console.log(session)
         if (!session) {
             router.push("api/auth/signin/credentials");
         }
@@ -30,7 +31,7 @@ export default function useGetProfile(): Profile {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${session?.access_token}`,
+                Authorization: `Bearer ${session?.accessToken}`,
             }
         });
         if (response.status === 403) {

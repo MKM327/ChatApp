@@ -6,7 +6,6 @@ export const fetcher = async (url: string, type: Method, ...rest: any[]) => {
     const headers = {
         Authorization: `Bearer ${access_token}`,
     };
-    console.log(url, type, rest)
     const response = await fetch(url, { headers, method: type, body: rest[0] ?? null });
     const data = await response.json();
 

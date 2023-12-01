@@ -1,11 +1,13 @@
 import getAccessToken from "@/hooks/Navbar/useGetUser";
 import { io } from "socket.io-client";
+import { getServerSession } from "next-auth";
 
 export default async function connectToSocket() {
-    const {userId} = await getSession();
+    const data = await getServerSession();
+    console.log(data);
     const socket = io("ws://localhost:6543/chat", {
         query: {
-            id: userId,
+            id: 1,
         },
         timeout: 10000,
     });
@@ -19,4 +21,5 @@ export default async function connectToSocket() {
     socket.on("test", (data) => {
         console.log(data);
     });
+
 }

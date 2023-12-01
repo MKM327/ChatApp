@@ -1,4 +1,5 @@
 import getAccessToken from "@/hooks/Navbar/useGetUser";
+import { getSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 export interface IChat {
     id: number;
@@ -8,7 +9,7 @@ export interface IChat {
     MessageDate: string;
 }
 
-export default function useGetChats(): {chats: IChat[], loading: boolean} { // {Ç} {
+export default function useGetChats(): { chats: IChat[], loading: boolean } { // {Ç} {
     const [chats, setChats] = useState<IChat[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
@@ -16,7 +17,7 @@ export default function useGetChats(): {chats: IChat[], loading: boolean} { // {
     }, [])
     async function getChats() {
         setLoading(true);
-        let { accessToken, userId } = await getAccessToken();
+        const { userId, accessToken } = await getSession();
         const baseUrl = "http://localhost:6543/"
         const response = await fetch(baseUrl + "message/LastChatMessages/" + userId, {
             method: "GET",

@@ -9,6 +9,8 @@ interface IChatData {
 }
 export default function useGetChatData() {
     const { userId } = useParams();
-    const { data, error, isLoading } = useSWR<IChatData, Error>(`${BASE_URL}profile/chatProfile/${userId}`, (url: string) => fetcher(url, "GET"));
+    const { data, error, isLoading } = useSWR<IChatData, Error>(
+        `${BASE_URL}profile/chatProfile/${userId}`
+        , (url: string) => fetcher(url, "GET"));
     return { data, error, isLoading }
 }

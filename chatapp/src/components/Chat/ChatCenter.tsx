@@ -11,7 +11,7 @@ interface ChatCenterProps {
 
 function ChatterInfo({ swapState }: { swapState: () => void }) {
   const { data } = useGetChatData();
-  useCreateRoom();
+  // useCreateRoom();
   return (
     <div className="flex items-center justify-between pl-5 pt-3 pr-5 pb-5 border-b border-text-color">
       <div className="flex gap-2 items-center">
