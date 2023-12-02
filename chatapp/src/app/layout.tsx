@@ -22,8 +22,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  console.log("RENDERING LAYOUT");
   const session = await getServerSession(authOptions);
   if (session === undefined) redirect("/api/auth/signin/credentials");
+  await connectToSocket(session?.userId);
   return (
     <html lang="en">
       <head>

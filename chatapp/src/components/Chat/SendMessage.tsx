@@ -1,9 +1,10 @@
+import { useGetChatContext } from "@/hooks/Chat/useGetChatContext";
 import useGetChatData from "@/hooks/Chat/useGetChatData";
 import { useHandleSendMessage } from "@/hooks/Chat/useHandleSendMessage";
 
 export default function SendMessage() {
   const { data } = useGetChatData();
-  const { handleSubmit, messageRef } = useHandleSendMessage();
+  const { handleSubmit, setMessage } = useGetChatContext();
   return (
     <form
       className="flex p-4 justify-between gap-2 items-center"
@@ -20,7 +21,7 @@ export default function SendMessage() {
             id=""
             className="w-full rounded-lg bg-[rgb(32,36,38)] pr-7 outline-none placeholder:text-text-color p-2 focus:text-text-color"
             placeholder={`Send message to ${data?.firstName}`}
-            ref={messageRef}
+            onChange={(e) => setMessage(e.target.value)}
           />
           <div className="absolute top-2 right-2 flex justify-between gap-2 ">
             <button className="material-symbols-outlined cursor-pointer">

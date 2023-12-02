@@ -5,13 +5,13 @@ import ChatterCard from "./ChatterCard/ChatterCard";
 import SendMessage from "./SendMessage";
 import Loading from "../Loading";
 import { useManageCardState } from "@/hooks/Chat/useManageCardState";
-import { useCreateRoom } from "@/hooks/Chat/useCreateRoom";
+import { useHandleChat } from "@/hooks/Chat/useHandleChat";
+import { ChatProvider } from "@/contexts/ChatContext";
 interface ChatCenterProps {
   userId: string;
 }
 function ChatterInfo({ swapState }: { swapState: () => void }) {
   const { data } = useGetChatData();
-  useCreateRoom();
   return (
     <div className="flex items-center justify-between pl-5 pt-3 pr-5 pb-5 border-b border-text-color">
       <div className="flex gap-2 items-center">
@@ -39,13 +39,15 @@ export default function ChatCenter({ userId }: ChatCenterProps) {
   return isLoading ? (
     <Loading />
   ) : (
-    <section className="flex-1 flex">
-      <div className="flex-1 overflow-hidden flex flex-col">
-        <ChatterInfo swapState={swapState} />
-        <Chat />
-        <SendMessage />
-      </div>
-      {cardState == "OPEN" && <ChatterCard />}
-    </section>
+    <ChatProvider>
+      <section className="flex-1 flex">
+        <div className="flex-1 overflow-hidden flex flex-col">
+          <ChatterInfo swapState={swapState} />
+          <Chat />
+          <SendMessage />
+        </div>
+        {cardState == "OPEN" && <ChatterCard />}
+      </section>
+    </ChatProvider>
   );
 }

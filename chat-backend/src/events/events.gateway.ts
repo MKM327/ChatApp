@@ -32,31 +32,38 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
   @SubscribeMessage('connectToServer')
   handleJoin(@ConnectedSocket() socket: Socket, @MessageBody() data: string) {
-    this.profileService.handleConnection(parseInt(data));
-  }
-  handleConnection(client: Socket) {
-    const newClient = new Client();
-    newClient.socket = client
-    if (Array.isArray(client.handshake.query.id)) {
-      newClient.id = parseInt(client.handshake.query.id[0]);
-    }
-    else {
-      newClient.id = parseInt(client.handshake.query.id);
-    }
-    if (this.connectedUsers.find((user) => user.id === newClient.id)) {
-      client.disconnect();
+    console.log("joining", data);
+    if (data == null) {
+      console.log(data, "is null");
       return;
     }
-    console.log("new client id: " + newClient.id);
-    this.connectedUsers.push(newClient);
-    this.profileService.handleConnection(newClient.id);
+    let client = new Client();
+    client.id = parseInt(data);
+    client.socket = socket;
+    this.connectedUsers.push(client);
+    this.profileService.handleConnection(parseInt(data));
+  }
+  @SubscribeMessage("createRoom")
+  async handleCreateRoom(@ConnectedSocket() socket: Socket, @MessageBody() data: string) {
+    console.log("creating room");
+    const [user1, user2] = data.split(",");
+    socket.join(`${user1}-${user2}`);
+    console.log("joined", `${user1}-${user2}`);
+  }
+  @SubscribeMessage("SendMessage")
+  async handleSendMessage(@ConnectedSocket() socket: Socket, @MessageBody() data: string) {
+    console.log("sending message", data);
+  }
+  handleConnection(client: Socket) {
+    console.log("connected", client.id);
   }
 
-  handleDisconnect(client: Socket) {
-    const index = this.connectedUsers.findIndex((user) => user.socket.id === client.id);
-    const user = this.connectedUsers[index];
-    this.connectedUsers.splice(index, 1);
-    this.profileService.handleDisconnection(user.id);
-    console.log("disconnected", client.id);
+  handleDisconnect(socket: Socket) {
+    console.log("disconnected", socket.id);
+    const client = this.connectedUsers.find((user) => user.socket.id === socket.id);
+    if (client) {
+      this.profileService.handleDisconnection(client.id);
+      this.connectedUsers = this.connectedUsers.filter((user) => user.socket.id !== socket.id);
+    }
   }
 }
