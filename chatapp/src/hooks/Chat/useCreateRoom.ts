@@ -1,18 +1,10 @@
 import { Socket, io } from "socket.io-client";
 import { getSession } from "next-auth/react";
-
+import { socket } from "@/lib/socket";
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
 export function useCreateRoom() {
-    // const createRoom = async () => {
-    //     const { userId } = await getSession();
-    //     const socket = io("ws://localhost:6543/chat", {
-    //         query: {
-    //             id: userId,
-    //         },
-    //         timeout: 10000,
-    //     });
-    //     socket.on("connect", () => {
-    //         console.log("connected to socket");
-    //         socket.emit("message", "hello");
-    //     });
-    // }
+    useEffect(() => {
+
+    }, [])
 }

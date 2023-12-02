@@ -8,6 +8,7 @@ import connectToSocket from "@/lib/connectToSocket";
 import { authOptions } from "./api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
+import { socket } from "@/lib/socket";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,9 +23,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const session = await getServerSession(authOptions);
-  if (session === undefined) 
-    redirect("/api/auth/signin/credentials");
-  // await connectToSocket();
+  if (session === undefined) redirect("/api/auth/signin/credentials");
   return (
     <html lang="en">
       <head>

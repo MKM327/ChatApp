@@ -5,7 +5,7 @@ import { ProfileService } from 'src/profile/profile.service';
 import { Client } from './client.entity';
 import { EventMessage } from './event.payload';
 import { MessageService } from 'src/message/message.service';
-@WebSocketGateway({ namespace: '/chat' })
+@WebSocketGateway({ namespace: '/chat', cors: { origin: "http://localhost:3000", methods: ["GET", "POST"] } })
 export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   constructor(private profileService: ProfileService, private messageService: MessageService) { }
@@ -30,9 +30,13 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     this.server.disconnectSockets();
     this.connectedUsers = [];
   }
+  @SubscribeMessage('connectToServer')
+  handleJoin(@ConnectedSocket() socket: Socket, @MessageBody() data: string) {
+    this.profileService.handleConnection(parseInt(data));
+  }
   handleConnection(client: Socket) {
     const newClient = new Client();
-    newClient.socket = client;
+    newClient.socket = client
     if (Array.isArray(client.handshake.query.id)) {
       newClient.id = parseInt(client.handshake.query.id[0]);
     }
