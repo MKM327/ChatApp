@@ -8,6 +8,7 @@ export function useHandleChat() {
     const [message, setMessage] = useState("");
     useEffect(() => {
         async function connectToRoom() {
+            socket.connect();
             socket.on("receiveMessage", (data) => {
                 console.log("received message", data);
             }
@@ -24,13 +25,12 @@ export function useHandleChat() {
         return () => {
             socket.off("receiveMessage");
         }
-    }, [])
+    }, [userId])
     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         console.log("SENDING");
         const { userId: senderId } = await getSession();
-        socket.emit("sendMessage", { message: message, receiver: userId, senderId: senderId });
-        console.log("SENT")
+        socket.emit("sendMessage", { message: message, receiver: parseInt(userId as string), senderId: senderId });
     }
     return { isTyping, setIsTyping, message, setMessage, handleSubmit }
 }
