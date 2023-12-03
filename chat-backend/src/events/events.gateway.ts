@@ -50,8 +50,8 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     socket.join(`${user1}-${user2}`);
     console.log("joined", `${user1}-${user2}`);
   }
-  @SubscribeMessage("SendMessage")
-  async handleSendMessage(@ConnectedSocket() socket: Socket, @MessageBody() data: string) {
+  @SubscribeMessage("sendMessage")
+  async handleSendMessage(@ConnectedSocket() socket: Socket, @MessageBody() data: any) {
     console.log("sending message", data);
   }
   handleConnection(client: Socket) {

@@ -25,9 +25,12 @@ export function useHandleChat() {
             socket.off("receiveMessage");
         }
     }, [])
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        socket.emit("sendMessage", { message, receiver: userId });
+        console.log("SENDING");
+        const { userId: senderId } = await getSession();
+        socket.emit("sendMessage", { message: message, receiver: userId, senderId: senderId });
+        console.log("SENT")
     }
     return { isTyping, setIsTyping, message, setMessage, handleSubmit }
 }
