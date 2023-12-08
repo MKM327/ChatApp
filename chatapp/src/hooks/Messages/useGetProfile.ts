@@ -22,7 +22,6 @@ export default function useGetProfile(): Profile {
     }, []);
     async function fetchProfile() {
         const session = await getSession();
-        console.log(session)
         if (!session) {
             router.push("api/auth/signin/credentials");
         }

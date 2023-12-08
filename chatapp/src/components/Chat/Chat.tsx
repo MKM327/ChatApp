@@ -1,4 +1,5 @@
 import { BASE_URL, fetcher } from "@/lib/exports";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { Interface } from "readline";
 import useSWR from "swr";
@@ -32,16 +33,17 @@ function Message({ type, message }: MessageProps) {
 }
 export default function Chat() {
   const { userId } = useParams();
-  const { data } = useSWR<IMessage[], any>(
-    `${BASE_URL}message/Conversation?page=1&limit=10&userId=1&receiverId=2`,
+  const { data } = useSession();
+  const { data: chat } = useSWR<IMessage[], any>(
+    `${BASE_URL}message/Conversation?page=1&limit=10&userId=${data?.userId}&receiverId=${userId}`,
     (url: string) => fetcher(url, "GET")
   );
   return (
     <div className="p-3 bg-secondary-color flex flex-col gap-5 overflow-y-scroll flex-1">
-      {data?.map((message) => {
+      {chat?.map((message) => {
         return (
           <Message
-            type={message.sender == userId ? "sent" : "coming"}
+            type={message.sender == data?.userId ? "sent" : "coming"}
             message={message}
             key={message.id}
           />

@@ -3,7 +3,6 @@ import { Message } from './message.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { ProfileService } from 'src/profile/profile.service';
-import { Profile } from 'src/profile/profile.entity';
 import { ChattedProfileDto } from './dto/ChattedProfileDto'
 @Injectable()
 export class MessageService {
@@ -49,7 +48,7 @@ export class MessageService {
                 skip: (page - 1) * limit,
                 take: limit,
                 order: {
-                    date: "DESC"
+                    date: "ASC"
                 }
             });
             return messages;
@@ -60,8 +59,6 @@ export class MessageService {
         const profileMessages = await this.messageRepository.find(
             { where: [{ sender: profile }, { receiver: profile }], relations: { receiver: true, sender: true } });
         const chattedProfiles: ChattedProfileDto[] = [];
-
-        debugger;
         for (let message of profileMessages) {
             const user = chattedProfiles.find(a => a.id === message.receiver.id || a.id === message.sender.id);
             if (user)

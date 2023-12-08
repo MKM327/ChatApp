@@ -90,4 +90,10 @@ export class ProfileService {
         }
         return chatProfileDto;
     }
+    async findByUserId(userId: number): Promise<Profile> {
+        const profile = await this.profileRepository.findOne({ where: { userId: userId } });
+        if (!profile)
+            throw new NotFoundException("Profile not found");
+        return profile
+    }
 }

@@ -45,13 +45,19 @@ export class EventsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
   @SubscribeMessage('createRoom')
   handleCreateRoom(@ConnectedSocket() socket: Socket, @MessageBody() data: string) {
-    console.log("creating room", data);
     socket.join(data);
   }
 
   @SubscribeMessage("sendMessage")
-  handleSendMessage(@ConnectedSocket() socket: Socket, @MessageBody() data: any) {
-    console.log("sending message", data);
+  async handleSendMessage(@ConnectedSocket() socket: Socket, @MessageBody() data: any) {
+    const senderProfile = await this.profileService.findByUserId(data.senderId);
+    const receiverProfile = await this.profileService.getOne(data.receiverId);
+    if (data.senderId === data.receiverId)
+      return;
+    console.log(data.senderId, data.receiverId, data.message, data.roomId);
+    const message = this.messageService.create({ sender: senderProfile, receiver: receiverProfile, messageContent: data.message, date: new Date(), isRead: false });
+
+    socket.to(data.roomId).emit("receiveMessage", message);
   }
   handleConnection(client: Socket) {
     console.log("connected", client.id);

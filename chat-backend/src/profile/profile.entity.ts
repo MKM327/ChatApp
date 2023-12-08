@@ -1,7 +1,7 @@
 import { IsEmail, IsDate, IsNotEmpty } from "class-validator";
 import { Message } from "src/message/message.entity";
 import { User } from "src/user/user.entity";
-import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn, RelationId } from "typeorm";
 
 @Entity({ name: "Profile" })
 export class Profile {
@@ -23,8 +23,10 @@ export class Profile {
     @Column()
     avatar: string
     @OneToOne(() => User, user => user.profile)
-    @JoinColumn()
+    @JoinColumn({ name: "userId" })
     user: User
+    @Column()
+    userId: number;
     @OneToMany(() => Message, message => message.sender)
     sentMessages: Message[]
     @OneToMany(() => Message, message => message.receiver)
